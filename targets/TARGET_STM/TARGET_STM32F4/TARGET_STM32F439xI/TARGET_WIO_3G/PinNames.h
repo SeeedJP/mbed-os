@@ -169,6 +169,7 @@ typedef enum {
     ADC_VBAT = 0xF2,
 
     // Grove connector namings
+#ifndef ARDUINO
     D38         = PC_6,
     D39         = PC_7,
     D20         = PB_4,
@@ -181,6 +182,7 @@ typedef enum {
     TXD         = PB_6,
     I2C_SCL     = PB_8,
     I2C_SDA     = PB_9,
+#endif // ARDUINO
 
     // STDIO for console print
 #ifdef MBED_CONF_TARGET_STDIO_UART_TX
@@ -228,7 +230,7 @@ typedef enum {
     SPI_MISO    = PC_11,
     SPI_SCK     = PC_10,
     SPI_CS      = PD_0,
-    PWM_OUT     = D39,
+    PWM_OUT     = PC_7,
 
     // Not connected
     NC = (int)0xFFFFFFFF
