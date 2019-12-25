@@ -3860,15 +3860,22 @@
           "macro_name": "MODEM_ON_BOARD_UART"
         }
       },
-      "extra_labels_add": [ "STM32F4", "STM32F405xx", "STM32F405RG" ],
-      "macros_add": [ "HSE_VALUE=8000000", "MBEDTLS_CONFIG_HW_SUPPORT" ],
-      "is_disk_virtual": true,
+      "extra_labels_add": [
+        "STM32F4",
+        "STM32F405xx"
+      ],
+      "macros_add": [
+        "STM32F405xx",
+        "TARGET_STM32F405RG",
+        "MBEDTLS_CONFIG_HW_SUPPORT"
+      ],
       "device_has_add": [
-        "ANALOGOUT",
         "TRNG",
         "MPU"
       ],
-      "device_has_remove": [ "SERIAL_FC" ],
+      "device_has_remove": [
+        "SERIAL_FC"
+      ],
       "release_versions": [ "2", "5" ],
       "device_name": "STM32F405RG",
       "overrides": {
@@ -3967,7 +3974,7 @@
         "components_add": ["SD"],
         "bootloader_supported": true,
         "overrides": {
-            "network-default-interface-type": "CELLULAR"
+          "network-default-interface-type": "CELLULAR"
         }
     },
     "DISCO_F051R8": {
@@ -4576,7 +4583,7 @@
     "MTS_MDOT_F405RG": {
         "inherits": ["FAMILY_STM32"],
         "core": "Cortex-M4F",
-        "extra_labels_add": ["STM32F4", "STM32F405RG"],
+      "extra_labels_add": ["STM32F4", "STM32F405RG"],
         "is_disk_virtual": true,
         "macros_add": ["HSE_VALUE=26000000"],
         "device_has_add": ["ANALOGOUT", "MPU"],

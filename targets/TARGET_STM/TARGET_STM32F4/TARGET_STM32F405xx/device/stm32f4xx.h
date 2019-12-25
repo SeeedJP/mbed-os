@@ -8,8 +8,8 @@
   *          is using in the C source code, usually in main.c. This file contains:
   *           - Configuration section that allows to select:
   *              - The STM32F4xx device used in the target application
-  *              - To use or not the peripheral's drivers in application code(i.e. 
-  *                code will be based on direct access to peripheral's registers 
+  *              - To use or not the peripheral’s drivers in application code(i.e. 
+  *                code will be based on direct access to peripheral’s registers 
   *                rather than drivers API), this option is controlled by 
   *                "#define USE_HAL_DRIVER"
   *  
@@ -78,7 +78,7 @@
     !defined (STM32F410Rx) && !defined (STM32F411xE) && !defined (STM32F446xx) && !defined (STM32F469xx) && \
     !defined (STM32F479xx) && !defined (STM32F412Cx) && !defined (STM32F412Rx) && !defined (STM32F412Vx) && \
     !defined (STM32F412Zx) && !defined (STM32F413xx) && !defined (STM32F423xx)
-  #define STM32F405xx    /*!< STM32F405RG, STM32F405VG and STM32F405ZG Devices */
+  /* #define STM32F405xx */   /*!< STM32F405RG, STM32F405VG and STM32F405ZG Devices */
   /* #define STM32F415xx */   /*!< STM32F415RG, STM32F415VG and STM32F415ZG Devices */
   /* #define STM32F407xx */   /*!< STM32F407VG, STM32F407VE, STM32F407ZG, STM32F407ZE, STM32F407IG  and STM32F407IE Devices */
   /* #define STM32F417xx */   /*!< STM32F417VG, STM32F417VE, STM32F417ZG, STM32F417ZE, STM32F417IG and STM32F417IE Devices */
@@ -118,7 +118,7 @@
    In this case, these drivers will not be included and the application code will 
    be based on direct access to peripherals registers 
    */
-  #define USE_HAL_DRIVER
+  /*#define USE_HAL_DRIVER */
 #endif /* USE_HAL_DRIVER */
 
 /**

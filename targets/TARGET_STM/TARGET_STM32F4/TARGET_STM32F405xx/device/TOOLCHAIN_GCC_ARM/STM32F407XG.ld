@@ -1,4 +1,12 @@
-/* Linker script for STM32F405 */
+/* Linker script to configure memory regions. */
+
+#if !defined(MBED_APP_START)
+  #define MBED_APP_START 0x08000000
+#endif
+
+#if !defined(MBED_APP_SIZE)
+  #define MBED_APP_SIZE 0x100000
+#endif
 
 #if !defined(MBED_BOOT_STACK_SIZE)
     #define MBED_BOOT_STACK_SIZE 0x400
@@ -6,12 +14,13 @@
 
 STACK_SIZE = MBED_BOOT_STACK_SIZE;
 
-/* Linker script to configure memory regions. */
+M_CRASH_DATA_RAM_SIZE = 0x100;
+
 MEMORY
 { 
-  FLASH (rx) : ORIGIN = 0x08000000, LENGTH = 1024K
+  FLASH (rx) : ORIGIN = MBED_APP_START, LENGTH = MBED_APP_SIZE
   CCM (rwx) : ORIGIN = 0x10000000, LENGTH = 64K
-  RAM (rwx) : ORIGIN = 0x20000188, LENGTH = 128K - 0x188
+  RAM (rwx) : ORIGIN = 0x20000188, LENGTH = 128k - 0x188 
 }
 
 /* Linker script to place sections and symbol values. Should be used together
@@ -39,6 +48,7 @@ MEMORY
  *   __StackLimit
  *   __StackTop
  *   __stack
+ *   _estack
  */
 ENTRY(Reset_Handler)
 
@@ -48,7 +58,6 @@ SECTIONS
     {
         KEEP(*(.isr_vector))
         *(.text*)
-
         KEEP(*(.init))
         KEEP(*(.fini))
 
@@ -71,7 +80,7 @@ SECTIONS
         KEEP(*(.eh_frame*))
     } > FLASH
 
-    .ARM.extab : 
+    .ARM.extab :
     {
         *(.ARM.extab* .gnu.linkonce.armextab.*)
     } > FLASH
@@ -84,10 +93,24 @@ SECTIONS
     __exidx_end = .;
 
     __etext = .;
-        
+    _sidata = .;
+
+    .crash_data_ram :
+    {
+        . = ALIGN(8);
+        __CRASH_DATA_RAM__ = .;
+        __CRASH_DATA_RAM_START__ = .; /* Create a global symbol at data start */
+        KEEP(*(.keep.crash_data_ram))
+        *(.m_crash_data_ram)     /* This is a user defined section */
+        . += M_CRASH_DATA_RAM_SIZE;
+        . = ALIGN(8);
+        __CRASH_DATA_RAM_END__ = .; /* Define a global symbol at data end */
+    } > RAM 
+
     .data : AT (__etext)
     {
         __data_start__ = .;
+        _sdata = .;
         *(vtable)
         *(.data*)
 
@@ -116,6 +139,7 @@ SECTIONS
         . = ALIGN(8);
         /* All data end */
         __data_end__ = .;
+        _edata = .;
 
     } > RAM
 
@@ -123,12 +147,14 @@ SECTIONS
     {
         . = ALIGN(8);
         __bss_start__ = .;
+        _sbss = .;
         *(.bss*)
         *(COMMON)
         . = ALIGN(8);
         __bss_end__ = .;
+        _ebss = .;
     } > RAM
-    
+
     .heap (COPY):
     {
         __end__ = .;
@@ -149,10 +175,10 @@ SECTIONS
     /* Set stack top to end of RAM, and stack limit move down by
      * size of stack_dummy section */
     __StackTop = ORIGIN(RAM) + LENGTH(RAM);
+    _estack = __StackTop;
     __StackLimit = __StackTop - STACK_SIZE;
     PROVIDE(__stack = __StackTop);
-    
+
     /* Check if data + heap + stack exceeds RAM limit */
     ASSERT(__StackLimit >= __HeapLimit, "region RAM overflowed with stack")
 }
-

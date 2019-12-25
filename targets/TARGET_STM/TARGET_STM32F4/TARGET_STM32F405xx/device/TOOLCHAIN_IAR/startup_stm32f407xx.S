@@ -1,7 +1,7 @@
 ;/******************** (C) COPYRIGHT 2017 STMicroelectronics ********************
-;* File Name          : startup_stm32f405xx.s
+;* File Name          : startup_stm32f407xx.s
 ;* Author             : MCD Application Team
-;* Description        : STM32F405xx devices vector table for EWARM toolchain.
+;* Description        : STM32F407xx devices vector table for EWARM toolchain.
 ;*                      This module performs:
 ;*                      - Set the initial SP
 ;*                      - Set the initial PC == _iar_program_start,
@@ -116,9 +116,9 @@ __vector_table
         DCD     TIM2_IRQHandler                   ; TIM2
         DCD     TIM3_IRQHandler                   ; TIM3
         DCD     TIM4_IRQHandler                   ; TIM4
-        DCD     I2C1_EV_IRQHandler                ; I2C1 Event 
-        DCD     I2C1_ER_IRQHandler                ; I2C1 Error 
-        DCD     I2C2_EV_IRQHandler                ; I2C2 Event 
+        DCD     I2C1_EV_IRQHandler                ; I2C1 Event
+        DCD     I2C1_ER_IRQHandler                ; I2C1 Error
+        DCD     I2C2_EV_IRQHandler                ; I2C2 Event
         DCD     I2C2_ER_IRQHandler                ; I2C2 Error
         DCD     SPI1_IRQHandler                   ; SPI1
         DCD     SPI2_IRQHandler                   ; SPI2
@@ -146,8 +146,8 @@ __vector_table
         DCD     DMA2_Stream2_IRQHandler           ; DMA2 Stream 2
         DCD     DMA2_Stream3_IRQHandler           ; DMA2 Stream 3
         DCD     DMA2_Stream4_IRQHandler           ; DMA2 Stream 4
-        DCD     0                                 ; Reserved
-        DCD     0                                 ; Reserved
+        DCD     ETH_IRQHandler                    ; Ethernet
+        DCD     ETH_WKUP_IRQHandler               ; Ethernet Wakeup through EXTI line
         DCD     CAN2_TX_IRQHandler                ; CAN2 TX
         DCD     CAN2_RX0_IRQHandler               ; CAN2 RX0
         DCD     CAN2_RX1_IRQHandler               ; CAN2 RX1
@@ -163,11 +163,11 @@ __vector_table
         DCD     OTG_HS_EP1_IN_IRQHandler          ; USB OTG HS End Point 1 In
         DCD     OTG_HS_WKUP_IRQHandler            ; USB OTG HS Wakeup through EXTI
         DCD     OTG_HS_IRQHandler                 ; USB OTG HS
-        DCD     0                                 ; Reserved
+        DCD     DCMI_IRQHandler                   ; DCMI
         DCD     0                                 ; Reserved
         DCD     HASH_RNG_IRQHandler               ; Hash and RNG
         DCD     FPU_IRQHandler                    ; FPU
-
+    
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;; Default interrupt handlers.
@@ -532,6 +532,16 @@ DMA2_Stream3_IRQHandler
 DMA2_Stream4_IRQHandler  
         B DMA2_Stream4_IRQHandler
 
+        PUBWEAK ETH_IRQHandler
+        SECTION .text:CODE:REORDER:NOROOT(1)
+ETH_IRQHandler  
+        B ETH_IRQHandler
+
+        PUBWEAK ETH_WKUP_IRQHandler
+        SECTION .text:CODE:REORDER:NOROOT(1)
+ETH_WKUP_IRQHandler  
+        B ETH_WKUP_IRQHandler
+
         PUBWEAK CAN2_TX_IRQHandler
         SECTION .text:CODE:REORDER:NOROOT(1)
 CAN2_TX_IRQHandler  
@@ -606,6 +616,11 @@ OTG_HS_WKUP_IRQHandler
         SECTION .text:CODE:REORDER:NOROOT(1)
 OTG_HS_IRQHandler  
         B OTG_HS_IRQHandler
+
+        PUBWEAK DCMI_IRQHandler
+        SECTION .text:CODE:REORDER:NOROOT(1)
+DCMI_IRQHandler  
+        B DCMI_IRQHandler
 
         PUBWEAK HASH_RNG_IRQHandler
         SECTION .text:CODE:REORDER:NOROOT(1)

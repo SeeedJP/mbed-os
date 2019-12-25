@@ -1,8 +1,10 @@
 /* mbed Microcontroller Library
  *******************************************************************************
- * Copyright (c) 2014, STMicroelectronics
+ * Copyright (c) 2014-2019, STMicroelectronics
  * All rights reserved.
  *
+ * SPDX-License-Identifier: BSD-3-Clause
+ * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *
@@ -31,10 +33,11 @@
 #ifndef MBED_CMSIS_NVIC_H
 #define MBED_CMSIS_NVIC_H
 
-// STM32F405RG
+// STM32F407VG
 // CORE: 16 vectors = 64 bytes from 0x00 to 0x3F
 // MCU Peripherals: 82 vectors = 328 bytes from 0x40 to ...
 // Total: 98 vectors = 392 bytes (0x188) to be reserved in RAM
+
 #define NVIC_NUM_VECTORS        98
 #define NVIC_RAM_VECTOR_ADDRESS 0x20000000    // Vectors positioned at start of RAM
 
