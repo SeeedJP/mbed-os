@@ -3928,6 +3928,51 @@
             "network-default-interface-type": "WIFI"
         }
     },
+    "WIO_EMW3166": {
+        "inherits": ["FAMILY_STM32"],
+        "supported_toolchains": [
+            "ARM",
+            "GCC_ARM",
+            "IAR"
+        ],
+        "core": "Cortex-M4F",
+        "extra_labels_add": [
+            "STM32F4",
+            "STM32F412xG",
+            "STM32F412ZG",
+            "WICED",
+            "CYW43362"
+        ],
+        "macros_add": [
+            "USB_STM_HAL",
+            "USBHOST_OTHER"
+        ],
+        "device_has_add": [
+            "CAN",
+            "SERIAL_ASYNCH",
+            "TRNG",
+            "FLASH",
+            "MPU"
+        ],
+        "release_versions": ["5"],
+        "detect_code": ["9017"],
+        "components_add": [
+            "SPIF",
+            "FLASHIAP"
+        ],
+        "device_name": "STM32F412ZG",
+        "bootloader_supported": true,
+        "config": {
+            "clock_source": {
+                "help": "Mask value : USE_PLL_HSE_EXTC | USE_PLL_HSE_XTAL (need HW patch) | USE_PLL_HSI",
+                "value": "USE_PLL_HSI",
+                "macro_name": "CLOCK_SOURCE"
+            }
+        },
+        "overrides": {
+            "network-default-interface-type": "WIFI"
+        }
+    },
     "USI_WM_BN_BM_22": {
         "inherits": [
             "FAMILY_STM32"
