@@ -441,7 +441,7 @@ void CellularStateMachine::state_signal_quality()
 {
     _cb_data.error = _network.get_signal_quality(_signal_quality.rssi, &_signal_quality.ber);
 
-    if (_cb_data.error != NSAPI_ERROR_OK) {
+    if (_cb_data.error != NSAPI_ERROR_OK || _signal_quality.rssi == CellularNetwork::SignalQualityUnknown) {
         retry_state_or_fail();
     } else {
         _cb_data.data = &_signal_quality;
@@ -582,6 +582,7 @@ void CellularStateMachine::event()
     _event_timeout = -1;
     _is_retry = false;
 
+    tr_debug("event() %s", get_state_string((CellularStateMachine::CellularState)_state));
     switch (_state) {
         case STATE_INIT:
             _current_event = CellularDeviceReady;
